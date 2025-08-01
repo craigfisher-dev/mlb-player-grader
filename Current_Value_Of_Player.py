@@ -1,3 +1,4 @@
+import streamlit as st
 import statsapi
 
 player_name = input("What current player would you like to look up? \n")
