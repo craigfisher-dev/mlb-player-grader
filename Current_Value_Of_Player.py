@@ -169,7 +169,7 @@ def get_obp_points(obp_value):
 # S: .850+ (70 points) (great)
 # A: .800+ (60 points) (above average)
 # B: .750+ (50 points) (slightly above average)
-# C: .717+ (40 points) (league average)
+# C: .700+ (40 points) (league average)
 # D: .650+ (30 points) (below average)
 # F: Below .650 (20 points) (poor)
 
@@ -182,7 +182,7 @@ def get_ops_points(ops_value):
         return 60, "A", 4
     elif ops_value >= 0.750:
         return 50, "B", 3
-    elif ops_value >= 0.717:
+    elif ops_value >= 0.700:
         return 40, "C", 2
     elif ops_value >= 0.650:
         return 30, "D", 1
@@ -229,7 +229,7 @@ def bonus_points(player_grades):
 def points_to_overall_grade(points):
     if points >= 120:
         return "S+"
-    elif points >= 110:
+    elif points >= 105:
         return "S"
     elif points >= 95:
         return "A"
