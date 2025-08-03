@@ -124,17 +124,17 @@ def get_ba_points(ba_value):
     if ba_value >= 0.300:
         return 30, "S+", 6
     elif ba_value >= 0.280:
-        return 25, "S", 5
+        return 22, "S", 5
     elif ba_value >= 0.265:
-        return 23, "A", 4
+        return 20, "A", 4
     elif ba_value >= 0.255:
         return 18, "B", 3
     elif ba_value >= 0.246:
         return 15, "C", 2
     elif ba_value >= 0.225:
-        return 11, "D", 1
+        return 8, "D", 1
     else:
-        return 7, "F", 0
+        return 4, "F", 0
 
 # OBP (On Base Percentage) (Ranking) - 30 points max
 # Rating for plate discipline and getting on base
@@ -150,17 +150,17 @@ def get_obp_points(obp_value):
     if obp_value >= 0.375:
         return 30, "S+", 6
     elif obp_value >= 0.360:
-        return 25, "S", 5
+        return 22, "S", 5
     elif obp_value >= 0.345:
-        return 23, "A", 4
+        return 20, "A", 4
     elif obp_value >= 0.330:
         return 18, "B", 3
-    elif obp_value >= 0.316:
+    elif obp_value >= 0.300:
         return 15, "C", 2
-    elif obp_value >= 0.285:
-        return 11, "D", 1
+    elif obp_value >= 0.270:
+        return 8, "D", 1
     else:
-        return 7, "F", 0
+        return 4, "F", 0
 
 
 # OPS (On-Base + Slugging Percentage) (Ranking) - 80 points max
@@ -174,17 +174,17 @@ def get_obp_points(obp_value):
 # F: Below .650 (20 points) (poor)
 
 def get_ops_points(ops_value):
-    if ops_value >= 0.900:
+    if ops_value >= 0.880:
         return 80, "S+", 6
-    elif ops_value >= 0.850:
-        return 70, "S", 5
-    elif ops_value >= 0.800:
-        return 60, "A", 4
-    elif ops_value >= 0.750:
+    elif ops_value >= 0.830:
+        return 68, "S", 5
+    elif ops_value >= 0.780:
+        return 59, "A", 4
+    elif ops_value >= 0.740:
         return 50, "B", 3
-    elif ops_value >= 0.700:
+    elif ops_value >= 0.660:
         return 40, "C", 2
-    elif ops_value >= 0.650:
+    elif ops_value >= 0.620:
         return 30, "D", 1
     else:
         return 20, "F", 0
@@ -235,9 +235,9 @@ def points_to_overall_grade(points):
         return "A"
     elif points >= 80:
         return "B"
-    elif points >= 60:
+    elif points >= 50:
         return "C"
-    elif points >= 45:
+    elif points >= 30:
         return "D"
     else:
         return "F"
@@ -254,7 +254,7 @@ def get_Hitting_Grade(player_grades, ba, ops, obp):
     # print(get_obp_points(ops)[0])
     # print(get_ops_points(obp)[0])
     # print(bonus_points(player_grades))
-    # print(total_points)
+    print(total_points)
     return points_to_overall_grade(total_points)
 
 
