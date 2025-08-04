@@ -15,7 +15,12 @@ player_name = st.text_input("What current player would you like to look up?", pl
 
 # Checks if user inputed a name
 if (player_name):
-    player_results = statsapi.lookup_player(player_name)
+    try:
+        player_results = statsapi.lookup_player(player_name)
+    except:
+        st.error("Unable to connect to MLB API. Please try again later.")
+        player_results = None
+        
     # If there are results
     if (player_results):
 
@@ -49,178 +54,183 @@ if (player_name):
                 break
         
         if (selected_player_id):
-            # All Stats
-            player_Stats = statsapi.player_stats(selected_player_id, season='current')
-
-            # Just there hitting stats - It is a string
-            player_Hitting_Stats = statsapi.player_stats(selected_player_id, group='hitting', season='current')
-
-            split_String = player_Hitting_Stats.split(':')
-
+            
             try:
+                # All Stats
+                player_Stats = statsapi.player_stats(selected_player_id, season='current')
 
-                ba = split_String[13].split('\n')[0]
-                ba = ba[1:]
-                st.write(f"BA: {ba}")
-                obp = split_String[15].split('\n')[0]
-                obp = obp[1:]
-                st.write(f"obp: {obp}")
-                ops = split_String[17].split('\n')[0]
-                ops = ops[1:]
-                st.write(f"ops: {ops}")
+                # Just there hitting stats - It is a string
+                player_Hitting_Stats = statsapi.player_stats(selected_player_id, group='hitting', season='current')
 
+                split_String = player_Hitting_Stats.split(':')
 
-                # 1 function to tally up the points and give a letter grade based on points
+                try:
 
-                # BA (Batting Average) (Ranking) - 30 points max
-                # Rating for how good a hitter is at making contact for a basehit
-                # S+: .300+ (30 points) (elite)
-                # S: .280+ (22 points) (great)
-                # A: .265+ (20 points) (above average)
-                # B: .255+ (18 points) (slightly above average)
-                # C: .246+ (15 points) (league average)
-                # D: .225+ (8 points) (below average)
-                # F: Below .225 (4 points) (poor)
-
-                def get_ba_points(ba_value):
-                    if ba_value >= 0.300:
-                        return 30, "S+", 6
-                    elif ba_value >= 0.280:
-                        return 22, "S", 5
-                    elif ba_value >= 0.265:
-                        return 20, "A", 4
-                    elif ba_value >= 0.255:
-                        return 18, "B", 3
-                    elif ba_value >= 0.246:
-                        return 15, "C", 2
-                    elif ba_value >= 0.225:
-                        return 8, "D", 1
-                    else:
-                        return 4, "F", 0
-
-                # OBP (On Base Percentage) (Ranking) - 30 points max
-                # Rating for plate discipline and getting on base
-                # S+: .375+ (30 points) (elite)
-                # S: .360+ (22 points) (great) 
-                # A: .345+ (20 points) (above average)
-                # B: .330+ (18 points) (slightly above average) 
-                # C: .300+ (15 points) (league average)
-                # D: .270+ (8 points) (below average)
-                # F: Below .270 (4 points) (poor)
-
-                def get_obp_points(obp_value):
-                    if obp_value >= 0.375:
-                        return 30, "S+", 6
-                    elif obp_value >= 0.360:
-                        return 22, "S", 5
-                    elif obp_value >= 0.345:
-                        return 20, "A", 4
-                    elif obp_value >= 0.330:
-                        return 18, "B", 3
-                    elif obp_value >= 0.300:
-                        return 15, "C", 2
-                    elif obp_value >= 0.270:
-                        return 8, "D", 1
-                    else:
-                        return 4, "F", 0
+                    ba = split_String[13].split('\n')[0]
+                    ba = ba[1:]
+                    st.write(f"BA: {ba}")
+                    obp = split_String[15].split('\n')[0]
+                    obp = obp[1:]
+                    st.write(f"obp: {obp}")
+                    ops = split_String[17].split('\n')[0]
+                    ops = ops[1:]
+                    st.write(f"ops: {ops}")
 
 
-                # OPS (On-Base + Slugging Percentage) (Ranking) - 80 points max
-                # Rating for combined power and on-base ability
-                # S+: .880+ (80 points) (elite)
-                # S: .830+ (70 points) (great)
-                # A: .780+ (60 points) (above average)
-                # B: .740+ (50 points) (slightly above average)
-                # C: .760+ (40 points) (league average)
-                # D: .620+ (30 points) (below average)
-                # F: Below .620 (20 points) (poor)
+                    # 1 function to tally up the points and give a letter grade based on points
 
-                def get_ops_points(ops_value):
-                    if ops_value >= 0.880:
-                        return 80, "S+", 6
-                    elif ops_value >= 0.830:
-                        return 68, "S", 5
-                    elif ops_value >= 0.780:
-                        return 59, "A", 4
-                    elif ops_value >= 0.740:
-                        return 50, "B", 3
-                    elif ops_value >= 0.660:
-                        return 40, "C", 2
-                    elif ops_value >= 0.620:
-                        return 30, "D", 1
-                    else:
-                        return 20, "F", 0
+                    # BA (Batting Average) (Ranking) - 30 points max
+                    # Rating for how good a hitter is at making contact for a basehit
+                    # S+: .300+ (30 points) (elite)
+                    # S: .280+ (22 points) (great)
+                    # A: .265+ (20 points) (above average)
+                    # B: .255+ (18 points) (slightly above average)
+                    # C: .246+ (15 points) (league average)
+                    # D: .225+ (8 points) (below average)
+                    # F: Below .225 (4 points) (poor)
+
+                    def get_ba_points(ba_value):
+                        if ba_value >= 0.300:
+                            return 30, "S+", 6
+                        elif ba_value >= 0.280:
+                            return 22, "S", 5
+                        elif ba_value >= 0.265:
+                            return 20, "A", 4
+                        elif ba_value >= 0.255:
+                            return 18, "B", 3
+                        elif ba_value >= 0.246:
+                            return 15, "C", 2
+                        elif ba_value >= 0.225:
+                            return 8, "D", 1
+                        else:
+                            return 4, "F", 0
+
+                    # OBP (On Base Percentage) (Ranking) - 30 points max
+                    # Rating for plate discipline and getting on base
+                    # S+: .375+ (30 points) (elite)
+                    # S: .360+ (22 points) (great) 
+                    # A: .345+ (20 points) (above average)
+                    # B: .330+ (18 points) (slightly above average) 
+                    # C: .300+ (15 points) (league average)
+                    # D: .270+ (8 points) (below average)
+                    # F: Below .270 (4 points) (poor)
+
+                    def get_obp_points(obp_value):
+                        if obp_value >= 0.375:
+                            return 30, "S+", 6
+                        elif obp_value >= 0.360:
+                            return 22, "S", 5
+                        elif obp_value >= 0.345:
+                            return 20, "A", 4
+                        elif obp_value >= 0.330:
+                            return 18, "B", 3
+                        elif obp_value >= 0.300:
+                            return 15, "C", 2
+                        elif obp_value >= 0.270:
+                            return 8, "D", 1
+                        else:
+                            return 4, "F", 0
 
 
-                ba_float = float(ba)
-                obp_float = float(obp)
-                ops_float = float(ops)
+                    # OPS (On-Base + Slugging Percentage) (Ranking) - 80 points max
+                    # Rating for combined power and on-base ability
+                    # S+: .880+ (80 points) (elite)
+                    # S: .830+ (70 points) (great)
+                    # A: .780+ (60 points) (above average)
+                    # B: .740+ (50 points) (slightly above average)
+                    # C: .760+ (40 points) (league average)
+                    # D: .620+ (30 points) (below average)
+                    # F: Below .620 (20 points) (poor)
 
-                ba_points, ba_letter, ba_number = get_ba_points(ba_float)
-                obp_points, obp_letter, obp_number = get_obp_points(obp_float)
-                ops_points, ops_letter, ops_number = get_ops_points(ops_float)
+                    def get_ops_points(ops_value):
+                        if ops_value >= 0.880:
+                            return 80, "S+", 6
+                        elif ops_value >= 0.830:
+                            return 68, "S", 5
+                        elif ops_value >= 0.780:
+                            return 59, "A", 4
+                        elif ops_value >= 0.740:
+                            return 50, "B", 3
+                        elif ops_value >= 0.660:
+                            return 40, "C", 2
+                        elif ops_value >= 0.620:
+                            return 30, "D", 1
+                        else:
+                            return 20, "F", 0
 
-                player_grades.append(ba_number)
-                player_grades.append(obp_number) 
-                player_grades.append(ops_number)
 
-                # Bonus: +5 points for having 2+ elite stats (A tier or higher)
-                def bonus_points(player_grades):
-                    # 4 or above means A or better
-                    if ((player_grades[0] >= 4 and player_grades[1] >= 4) or
-                        (player_grades[0] >= 4 and player_grades[2] >= 4) or 
-                        (player_grades[1] >= 4 and player_grades[2] >= 4)):
-                        return 5
-                    else:
-                        return 0
+                    ba_float = float(ba)
+                    obp_float = float(obp)
+                    ops_float = float(ops)
+
+                    ba_points, ba_letter, ba_number = get_ba_points(ba_float)
+                    obp_points, obp_letter, obp_number = get_obp_points(obp_float)
+                    ops_points, ops_letter, ops_number = get_ops_points(ops_float)
+
+                    player_grades.append(ba_number)
+                    player_grades.append(obp_number) 
+                    player_grades.append(ops_number)
+
+                    # Bonus: +5 points for having 2+ elite stats (A tier or higher)
+                    def bonus_points(player_grades):
+                        # 4 or above means A or better
+                        if ((player_grades[0] >= 4 and player_grades[1] >= 4) or
+                            (player_grades[0] >= 4 and player_grades[2] >= 4) or 
+                            (player_grades[1] >= 4 and player_grades[2] >= 4)):
+                            return 5
+                        else:
+                            return 0
+                        
+                    # Each stat has a different point value 
+                    # Add them all up and grade them 
+                    # 145 max points
+                    # S+: 120+ points (elite)               6
+                    # S: 110-119 points (great)             5
+                    # A: 95-109 points (above average)      4
+                    # B: 80-94 points (decent)              3
+                    # C: 60-79 points (average)             2
+                    # D: 45-59 points (below average)       1
+                    # F: Below 45 points (poor)             0
+
+                    def points_to_overall_grade(points):
+                        if points >= 120:
+                            return "S+"
+                        elif points >= 105:
+                            return "S"
+                        elif points >= 95:
+                            return "A"
+                        elif points >= 80:
+                            return "B"
+                        elif points >= 50:
+                            return "C"
+                        elif points >= 30:
+                            return "D"
+                        else:
+                            return "F"
+
+
+                    def get_Hitting_Grade(player_grades, ba, ops, obp):
+                        total_points = (get_ba_points(ba)[0] + 
+                                    get_obp_points(obp)[0] + 
+                                    get_ops_points(ops)[0] + 
+                                    bonus_points(player_grades))
+                        # Used to see resulting grade point values
+                        # st.write(get_ba_points(ba)[0])
+                        # st.write(get_obp_points(ops)[0])
+                        # st.write(get_ops_points(obp)[0])
+                        # st.write(bonus_points(player_grades))
+                        st.write(total_points)
+                        return points_to_overall_grade(total_points)
+
+
+                    final_Hitting_Grade = get_Hitting_Grade(player_grades, ba_float, ops_float, obp_float)
+
+                    st.write(f"{selected_player_name} is ranked a {final_Hitting_Grade}")
                     
-                # Each stat has a different point value 
-                # Add them all up and grade them 
-                # 145 max points
-                # S+: 120+ points (elite)               6
-                # S: 110-119 points (great)             5
-                # A: 95-109 points (above average)      4
-                # B: 80-94 points (decent)              3
-                # C: 60-79 points (average)             2
-                # D: 45-59 points (below average)       1
-                # F: Below 45 points (poor)             0
-
-                def points_to_overall_grade(points):
-                    if points >= 120:
-                        return "S+"
-                    elif points >= 105:
-                        return "S"
-                    elif points >= 95:
-                        return "A"
-                    elif points >= 80:
-                        return "B"
-                    elif points >= 50:
-                        return "C"
-                    elif points >= 30:
-                        return "D"
-                    else:
-                        return "F"
-
-
-                def get_Hitting_Grade(player_grades, ba, ops, obp):
-                    total_points = (get_ba_points(ba)[0] + 
-                                get_obp_points(obp)[0] + 
-                                get_ops_points(ops)[0] + 
-                                bonus_points(player_grades))
-                    # Used to see resulting grade point values
-                    # st.write(get_ba_points(ba)[0])
-                    # st.write(get_obp_points(ops)[0])
-                    # st.write(get_ops_points(obp)[0])
-                    # st.write(bonus_points(player_grades))
-                    st.write(total_points)
-                    return points_to_overall_grade(total_points)
-
-
-                final_Hitting_Grade = get_Hitting_Grade(player_grades, ba_float, ops_float, obp_float)
-
-                st.write(f"{selected_player_name} is ranked a {final_Hitting_Grade}")
+                except:
+                    st.error("Player has no hitting Stats this season") 
             except:
-                st.error("Player has no hitting Stats this season") 
+                st.error("Unable to fetch player stats. API may be down - try again later.")
     else:
         st.error("No player found, please try again.")
 
