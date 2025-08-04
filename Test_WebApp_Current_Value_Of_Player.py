@@ -5,6 +5,8 @@ players_ID_And_Name_Cache = []
 
 player_grades = []
 
+st.title("MLB Hitting Stats Grader")
+
 player_name = st.text_input("What current player would you like to look up?", placeholder='Enter the name of any current MLB Player')
 
 # used to debug any player 
@@ -73,12 +75,12 @@ if (player_name):
                 # BA (Batting Average) (Ranking) - 30 points max
                 # Rating for how good a hitter is at making contact for a basehit
                 # S+: .300+ (30 points) (elite)
-                # S: .280+ (25 points) (great)
-                # A: .265+ (23 points) (above average)
+                # S: .280+ (22 points) (great)
+                # A: .265+ (20 points) (above average)
                 # B: .255+ (18 points) (slightly above average)
                 # C: .246+ (15 points) (league average)
-                # D: .225+ (11 points) (below average)
-                # F: Below .225 (7 points) (poor)
+                # D: .225+ (8 points) (below average)
+                # F: Below .225 (4 points) (poor)
 
                 def get_ba_points(ba_value):
                     if ba_value >= 0.300:
@@ -99,12 +101,12 @@ if (player_name):
                 # OBP (On Base Percentage) (Ranking) - 30 points max
                 # Rating for plate discipline and getting on base
                 # S+: .375+ (30 points) (elite)
-                # S: .360+ (25 points) (great) 
-                # A: .345+ (23 points) (above average)
+                # S: .360+ (22 points) (great) 
+                # A: .345+ (20 points) (above average)
                 # B: .330+ (18 points) (slightly above average) 
-                # C: .316+ (15 points) (league average)
-                # D: .285+ (11 points) (below average)
-                # F: Below .285 (7 points) (poor)
+                # C: .300+ (15 points) (league average)
+                # D: .270+ (8 points) (below average)
+                # F: Below .270 (4 points) (poor)
 
                 def get_obp_points(obp_value):
                     if obp_value >= 0.375:
@@ -125,13 +127,13 @@ if (player_name):
 
                 # OPS (On-Base + Slugging Percentage) (Ranking) - 80 points max
                 # Rating for combined power and on-base ability
-                # S+: .900+ (80 points) (elite)
-                # S: .850+ (70 points) (great)
-                # A: .800+ (60 points) (above average)
-                # B: .750+ (50 points) (slightly above average)
-                # C: .700+ (40 points) (league average)
-                # D: .650+ (30 points) (below average)
-                # F: Below .650 (20 points) (poor)
+                # S+: .880+ (80 points) (elite)
+                # S: .830+ (70 points) (great)
+                # A: .780+ (60 points) (above average)
+                # B: .740+ (50 points) (slightly above average)
+                # C: .760+ (40 points) (league average)
+                # D: .620+ (30 points) (below average)
+                # F: Below .620 (20 points) (poor)
 
                 def get_ops_points(ops_value):
                     if ops_value >= 0.880:
@@ -174,7 +176,7 @@ if (player_name):
                     
                 # Each stat has a different point value 
                 # Add them all up and grade them 
-                # 140 max points
+                # 145 max points
                 # S+: 120+ points (elite)               6
                 # S: 110-119 points (great)             5
                 # A: 95-109 points (above average)      4
