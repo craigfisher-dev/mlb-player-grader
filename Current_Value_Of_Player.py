@@ -215,7 +215,7 @@ def bonus_points(player_grades):
         return 0
 
 
-# Each important stat has a different point value 
+# Each stat has a different point value 
 # Add them all up and grade them 
 # 140 max points
 # S+: 120+ points (elite)               6
