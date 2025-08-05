@@ -5,19 +5,20 @@ players_ID_And_Name_Cache = []
 
 player_grades = []
 
-st.set_page_config("MLB Hitting Stats Grader")
+st.set_page_config("MLB Hitting Stats Grader", layout="wide")
 
 st.title("MLB Hitting Stats Grader")
 
-col_input, col_key = st.columns([1, 2])
-
-with col_input:
+with st.sidebar:
+    st.markdown("### 🔍 Player Search")
     player_name = st.text_input("What current player would you like to look up?", placeholder='Enter the name of any current MLB Player')
 
-with col_key:
     st.markdown("🎯 **How Grading Works**")
     st.markdown("**Grades:** 🔥S+ (Elite) → ⭐S (Great) → 💪A (Above Avg) → 👍B (Decent) → 👌C (Average) → 📉D (Below) → 💔F (Poor)")
     st.markdown("**Elite Stats:** BA(.300+) • OBP(.375+) • OPS(.880+) • Max Points: 145")
+
+
+col_input, col_key = st.columns([1, 2])
 
 # used to debug any player 
 # for player in statsapi.lookup_player("ohtani"):
@@ -52,12 +53,12 @@ if (player_name):
         list_player_names.sort(key=score_name)
         
         # User selects a player from list
-        with col_input:
+        with st.sidebar:
             selected_player_name = st.selectbox("What player would you like from the list",placeholder="Select a player", index=None, options=list_player_names)
 
         selected_player_id = None
 
-        col1_picture, col2_picture = st.columns(2)
+        col1_picture, col2_picture = st.columns([1, 2])
 
         # Loop though cache names and get the player ID
         for player_data in players_ID_And_Name_Cache:
