@@ -52,7 +52,8 @@ if (player_name):
         list_player_names.sort(key=score_name)
         
         # User selects a player from list
-        selected_player_name = st.selectbox("What player would you like from the list",placeholder="Select a player", index=None, options=list_player_names)
+        with col_input:
+            selected_player_name = st.selectbox("What player would you like from the list",placeholder="Select a player", index=None, options=list_player_names)
 
         selected_player_id = None
 
