@@ -5,11 +5,19 @@ players_ID_And_Name_Cache = []
 
 player_grades = []
 
+st.set_page_config("MLB Hitting Stats Grader")
+
 st.title("MLB Hitting Stats Grader")
 
+col_input, col_key = st.columns([1, 2])
 
+with col_input:
+    player_name = st.text_input("What current player would you like to look up?", placeholder='Enter the name of any current MLB Player')
 
-player_name = st.text_input("What current player would you like to look up?", placeholder='Enter the name of any current MLB Player')
+with col_key:
+    st.markdown("🎯 **How Grading Works**")
+    st.markdown("**Grades:** 🔥S+ (Elite) → ⭐S (Great) → 💪A (Above Avg) → 👍B (Decent) → 👌C (Average) → 📉D (Below) → 💔F (Poor)")
+    st.markdown("**Elite Stats:** BA(.300+) • OBP(.375+) • OPS(.880+) • Max Points: 145")
 
 # used to debug any player 
 # for player in statsapi.lookup_player("ohtani"):
@@ -48,11 +56,26 @@ if (player_name):
 
         selected_player_id = None
 
+        col1_picture, col2_picture = st.columns(2)
+
         # Loop though cache names and get the player ID
         for player_data in players_ID_And_Name_Cache:
             if (player_data[1] == selected_player_name):
                 selected_player_id = player_data[0]
-                st.write(f"Selected player ID: {selected_player_id}")
+                st.markdown(f"## 📋 Results for **{selected_player_name}**")
+                st.markdown(f"*Player ID: {selected_player_id}*")
+
+                # Action Shot of Player:
+                headshot_url = f"https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/{selected_player_id}/headshot/67/current"
+
+                action_url = f"https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:action:hero:current.jpg/q_auto:good,w_800/v1/people/{selected_player_id}/action/hero/current"
+
+                with col1_picture:
+                    st.image(headshot_url, width=150, caption=f"{selected_player_name}")
+
+                with col2_picture:
+                    st.image(action_url, width=670, caption=f"{selected_player_name} - Action Shot")
+                
                 break
         
         if (selected_player_id):
@@ -162,17 +185,23 @@ if (player_name):
                     obp_float = float(obp)
                     ops_float = float(ops)
 
-                    ba_points, ba_letter, ba_number = get_ba_points(ba_float)
-                    st.write(f"BA: {ba}")
-                    st.progress(ba_points/30)
+                    col1, col2, col3 = st.columns(3)
 
-                    obp_points, obp_letter, obp_number = get_obp_points(obp_float)
-                    st.write(f"obp: {obp}")
-                    st.progress(obp_points/30)
+                    with col1:
 
-                    ops_points, ops_letter, ops_number = get_ops_points(ops_float)
-                    st.write(f"ops: {ops}")
-                    st.progress(ops_points/80)
+                        ba_points, ba_letter, ba_number = get_ba_points(ba_float)
+                        st.metric(label="ba: ", value=ba)
+                        st.progress(ba_points/30)
+
+                    with col2:
+                        obp_points, obp_letter, obp_number = get_obp_points(obp_float)
+                        st.metric(label="obp: ", value=obp)
+                        st.progress(obp_points/30)
+
+                    with col3:
+                        ops_points, ops_letter, ops_number = get_ops_points(ops_float)
+                        st.metric(label="ops: ", value=ops)
+                        st.progress(ops_points/80)
 
                     player_grades.append(ba_number)
                     player_grades.append(obp_number) 
