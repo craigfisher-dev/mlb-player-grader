@@ -7,6 +7,8 @@ player_grades = []
 
 st.title("MLB Hitting Stats Grader")
 
+
+
 player_name = st.text_input("What current player would you like to look up?", placeholder='Enter the name of any current MLB Player')
 
 # used to debug any player 
@@ -68,13 +70,10 @@ if (player_name):
 
                     ba = split_String[13].split('\n')[0]
                     ba = ba[1:]
-                    st.write(f"BA: {ba}")
                     obp = split_String[15].split('\n')[0]
                     obp = obp[1:]
-                    st.write(f"obp: {obp}")
                     ops = split_String[17].split('\n')[0]
                     ops = ops[1:]
-                    st.write(f"ops: {ops}")
 
 
                     # 1 function to tally up the points and give a letter grade based on points
@@ -164,8 +163,16 @@ if (player_name):
                     ops_float = float(ops)
 
                     ba_points, ba_letter, ba_number = get_ba_points(ba_float)
+                    st.write(f"BA: {ba}")
+                    st.progress(ba_points/30)
+
                     obp_points, obp_letter, obp_number = get_obp_points(obp_float)
+                    st.write(f"obp: {obp}")
+                    st.progress(obp_points/30)
+
                     ops_points, ops_letter, ops_number = get_ops_points(ops_float)
+                    st.write(f"ops: {ops}")
+                    st.progress(ops_points/80)
 
                     player_grades.append(ba_number)
                     player_grades.append(obp_number) 
@@ -225,8 +232,9 @@ if (player_name):
 
                     final_Hitting_Grade = get_Hitting_Grade(player_grades, ba_float, ops_float, obp_float)
 
-                    st.write(f"{selected_player_name} is ranked a {final_Hitting_Grade}")
+                    st.write(f"{selected_player_name} is ranked: {final_Hitting_Grade}")
                     
+
                 except:
                     st.error("Player has no hitting Stats this season") 
             except:
