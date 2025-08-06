@@ -11,11 +11,7 @@ st.title("MLB Hitting Stats Grader")
 
 with st.sidebar:
     st.markdown("### 🔍 Player Search")
-    player_name = st.text_input("What current player would you like to look up?", placeholder='Enter the name of any current MLB Player')
-
-    st.markdown("🎯 **How Grading Works**")
-    st.markdown("**Grades:** 🔥S+ (Elite) → ⭐S (Great) → 💪A (Above Avg) → 👍B (Decent) → 👌C (Average) → 📉D (Below) → 💔F (Poor)")
-    st.markdown("**Elite Stats:** BA(.300+) • OBP(.375+) • OPS(.880+) • Max Points: 145")
+    player_name = st.text_input("What current player would you like to look up?", placeholder='Enter any current player')
 
 
 col_input, col_key = st.columns([1, 2])
@@ -64,8 +60,9 @@ if (player_name):
         for player_data in players_ID_And_Name_Cache:
             if (player_data[1] == selected_player_name):
                 selected_player_id = player_data[0]
-                st.markdown(f"## 📋 Results for **{selected_player_name}**")
-                st.markdown(f"*Player ID: {selected_player_id}*")
+                st.markdown(f"### Results for **{selected_player_name}**")
+                # Used for testing
+                # st.markdown(f"*Player ID: {selected_player_id}*")
 
                 # Action Shot of Player:
                 headshot_url = f"https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/{selected_player_id}/headshot/67/current"
@@ -73,10 +70,10 @@ if (player_name):
                 action_url = f"https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:action:hero:current.jpg/q_auto:good,w_800/v1/people/{selected_player_id}/action/hero/current"
 
                 with col1_picture:
-                    st.image(headshot_url, width=150, caption=f"{selected_player_name}")
+                    st.image(headshot_url, width=130, caption=f"{selected_player_name}")
 
                 with col2_picture:
-                    st.image(action_url, width=670, caption=f"{selected_player_name} - Action Shot")
+                    st.image(action_url, width=603, caption=f"{selected_player_name} - Action Shot")
                 
                 break
         
@@ -182,7 +179,6 @@ if (player_name):
                         else:
                             return 20, "F", 0
 
-
                     ba_float = float(ba)
                     obp_float = float(obp)
                     ops_float = float(ops)
@@ -190,20 +186,49 @@ if (player_name):
                     col1, col2, col3 = st.columns(3)
 
                     with col1:
-
                         ba_points, ba_letter, ba_number = get_ba_points(ba_float)
-                        st.metric(label="ba: ", value=ba)
+                        st.metric(label="ba:", value=ba, help="Battting Average")
                         st.progress(ba_points/30)
+                        
+                        # Use Streamlit's built-in colored containers
+                        if ba_letter in ["S+", "S"]:
+                            st.success(f"{ba_letter}: {ba_points}/30 points")
+                        elif ba_letter in ["A", "B"]:
+                            st.info(f"{ba_letter}: {ba_points}/30 points")
+                        elif ba_letter == "C":
+                            st.warning(f"{ba_letter}: {ba_points}/30 points")
+                        else:  # D or F
+                            st.error(f"{ba_letter}: {ba_points}/30 points")
 
                     with col2:
                         obp_points, obp_letter, obp_number = get_obp_points(obp_float)
-                        st.metric(label="obp: ", value=obp)
+                        st.metric(label="obp: ", value=obp, help="On-Base Percentage")
                         st.progress(obp_points/30)
+
+                        # Use Streamlit's built-in colored containers
+                        if obp_letter in ["S+", "S"]:
+                            st.success(f"{obp_letter}: {obp_points}/30 points")
+                        elif obp_letter in ["A", "B"]:
+                            st.info(f"{obp_letter}: {obp_points}/30 points")
+                        elif obp_letter == "C":
+                            st.warning(f"{obp_letter}: {obp_points}/30 points")
+                        else:  # D or F
+                            st.error(f"{obp_letter}: {obp_points}/30 points")
 
                     with col3:
                         ops_points, ops_letter, ops_number = get_ops_points(ops_float)
-                        st.metric(label="ops: ", value=ops)
+                        st.metric(label="ops: ", value=ops, help="On-base Plus Slugging")
                         st.progress(ops_points/80)
+
+                        # Use Streamlit's built-in colored containers
+                        if ops_letter in ["S+", "S"]:
+                            st.success(f"{ops_letter}: {ops_points}/80 points")
+                        elif ops_letter in ["A", "B"]:
+                            st.info(f"{ops_letter}: {ops_points}/80 points")
+                        elif ops_letter == "C":
+                            st.warning(f"{ops_letter}: {ops_points}/80 points")
+                        else:  # D or F
+                            st.error(f"{ops_letter}: {ops_points}/80 points")
 
                     player_grades.append(ba_number)
                     player_grades.append(obp_number) 
@@ -257,13 +282,20 @@ if (player_name):
                         # st.write(get_obp_points(ops)[0])
                         # st.write(get_ops_points(obp)[0])
                         # st.write(bonus_points(player_grades))
-                        st.write(total_points)
-                        return points_to_overall_grade(total_points)
+                        # st.write(total_points)
+                        return points_to_overall_grade(total_points), total_points
 
 
-                    final_Hitting_Grade = get_Hitting_Grade(player_grades, ba_float, ops_float, obp_float)
+                    final_Hitting_Grade, total_points  = get_Hitting_Grade(player_grades, ba_float, ops_float, obp_float)
 
-                    st.write(f"{selected_player_name} is ranked: {final_Hitting_Grade}")
+                    if final_Hitting_Grade in ["S+", "S"]:
+                        st.success(f"**{selected_player_name}** earned an **{final_Hitting_Grade}** overall hitting grade! ({total_points}/145 points)")
+                    elif final_Hitting_Grade in ["A", "B"]:
+                        st.info(f"**{selected_player_name}** earned an **{final_Hitting_Grade}** overall hitting grade! ({total_points}/145 points)")
+                    elif final_Hitting_Grade == "C":
+                        st.warning(f"**{selected_player_name}** earned a **{final_Hitting_Grade}** overall hitting grade ({total_points}/145 points)")
+                    else:
+                        st.error(f"**{selected_player_name}** earned an **{final_Hitting_Grade}** overall hitting grade ({total_points}/145 points)")
                     
 
                 except:
