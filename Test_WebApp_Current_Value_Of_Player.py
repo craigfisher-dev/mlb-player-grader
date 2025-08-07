@@ -234,12 +234,12 @@ if (player_name):
                     player_grades.append(obp_number) 
                     player_grades.append(ops_number)
 
-                    # Bonus: +5 points for having 2+ elite stats (A tier or higher)
+                    # Bonus: +5 points for having 2+ elite stats (B tier or higher)
                     def bonus_points(player_grades):
-                        # 4 or above means A or better
-                        if ((player_grades[0] >= 4 and player_grades[1] >= 4) or
-                            (player_grades[0] >= 4 and player_grades[2] >= 4) or 
-                            (player_grades[1] >= 4 and player_grades[2] >= 4)):
+                        # 4 or above means B or better
+                        if ((player_grades[0] >= 3 and player_grades[1] >= 3) or
+                            (player_grades[0] >= 3 and player_grades[2] >= 3) or 
+                            (player_grades[1] >= 3 and player_grades[2] >= 3)):
                             return 5
                         else:
                             return 0
@@ -287,7 +287,11 @@ if (player_name):
 
 
                     final_Hitting_Grade, total_points  = get_Hitting_Grade(player_grades, ba_float, ops_float, obp_float)
-
+                    
+                    bonus_earned = bonus_points(player_grades)
+                    if bonus_earned > 0:
+                        st.success("🌟 +5 bonus points for well-rounded hitting")
+                    
                     if final_Hitting_Grade in ["S+", "S"]:
                         st.success(f"**{selected_player_name}** earned an **{final_Hitting_Grade}** overall hitting grade! ({total_points}/145 points)")
                     elif final_Hitting_Grade in ["A", "B"]:
