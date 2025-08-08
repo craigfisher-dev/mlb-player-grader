@@ -7,6 +7,17 @@ player_grades = []
 
 st.set_page_config("MLB Hitting Stats Grader", layout="wide")
 
+st.markdown("""
+<style>
+    .stMainBlockContainer {
+        padding-top: 2rem;
+    }
+    .stSidebar > div {
+        padding-top: 0rem;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 st.title("MLB Hitting Stats Grader")
 
 with st.sidebar:
@@ -290,8 +301,10 @@ if (player_name):
                     
                     bonus_earned = bonus_points(player_grades)
                     if bonus_earned > 0:
-                        st.success("🌟 +5 bonus points for well-rounded hitting")
-                    
+                        st.success("🌟 Bonus: +5 points earned")
+                    else:
+                        st.error("❌ Bonus: Need B-grade in 2+ stats")
+
                     if final_Hitting_Grade in ["S+", "S"]:
                         st.success(f"**{selected_player_name}** earned an **{final_Hitting_Grade}** overall hitting grade! ({total_points}/145 points)")
                     elif final_Hitting_Grade in ["A", "B"]:
