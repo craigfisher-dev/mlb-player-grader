@@ -21,9 +21,10 @@ st.markdown("""
 st.title("MLB Hitting Stats Grader")
 
 with st.sidebar:
-    st.markdown("### 🔍 Player Search")
-    player_name = st.text_input("What current player would you like to look up?", placeholder='Enter any current player')
-
+    # Top section - Player Search
+    with st.container():
+        st.markdown("### 🔍 Player Search")
+        player_name = st.text_input("What current player would you like to look up?", placeholder='Enter any current player')
 
 col_input, col_key = st.columns([1, 2])
 
@@ -61,7 +62,18 @@ if (player_name):
         
         # User selects a player from list
         with st.sidebar:
-            selected_player_name = st.selectbox("What player would you like from the list",placeholder="Select a player", index=None, options=list_player_names)
+            selected_player_name = st.selectbox("What player would you like from the list?", placeholder="Select a player", index=None, options=list_player_names)
+
+            st.markdown("### 🏆 Grade Key")
+            st.markdown("""
+            **S+:** 120+ (Elite hitter)  
+            **S:** 110-119 (Excellent hitter)  
+            **A:** 95-109 (Above average)  
+            **B:** 80-94 (Good hitter)  
+            **C:** 60-79 (League average)  
+            **D:** 45-59 (Poor hitter)  
+            **F:** <45 (Very poor)
+            """)
 
         selected_player_id = None
 
@@ -321,7 +333,18 @@ if (player_name):
                 st.error("Unable to fetch player stats. API may be down - try again later.")
     else:
         st.error("No player found, please try again.")
+# Welcome Message
+if not player_name or (player_name and not selected_player_name):
+    st.markdown("""
+            **Welcome to the MLB Hitting Stats Grader!**
 
+            This tool analyzes current MLB players' hitting performance using three key metrics:
+            - **Batting Average (BA)** - How often they get hits
+            - **On-Base Percentage (OBP)** - How often they reach base  
+            - **On-Base Plus Slugging (OPS)** - Combined power and on-base ability
+
+            Simply search for any MLB player in the sidebar to see their latest stats and overall hitting grade!
+            """)
 
 
 
