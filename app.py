@@ -1,6 +1,9 @@
 import streamlit as st
 import statsapi
 
+st.cache_data.clear()
+st.cache_resource.clear()
+
 players_ID_And_Name_Cache = []
 
 selected_player_name = None
