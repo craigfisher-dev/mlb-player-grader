@@ -5,6 +5,8 @@ players_ID_And_Name_Cache = []
 
 player_grades = []
 
+selected_player_name = None
+
 st.set_page_config("MLB Hitting Stats Grader", layout="wide")
 
 st.markdown("""
