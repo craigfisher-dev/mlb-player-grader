@@ -3,8 +3,6 @@ import statsapi
 
 players_ID_And_Name_Cache = []
 
-player_grades = []
-
 selected_player_name = None
 
 st.set_page_config("MLB Hitting Stats Grader", layout="wide")
@@ -104,6 +102,8 @@ if (player_name):
         
         if (selected_player_id):
             
+            player_grades = []
+
             try:
                 # All Stats
                 player_Stats = statsapi.player_stats(selected_player_id, season='current')
