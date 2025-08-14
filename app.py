@@ -114,16 +114,30 @@ if (player_name):
                 # Just there hitting stats - It is a string
                 player_Hitting_Stats = statsapi.player_stats(selected_player_id, group='hitting', season='current')
 
+                # Safer logic for better lookup
+                hitting_stats_dict = {}
+
                 split_String = player_Hitting_Stats.split(':')
+
+                for i in range(len(split_String) - 1):
+                    part = split_String[i]
+                    next_part = split_String[i + 1]
+                    
+                    # Extract the actual stat name and value
+                    stat_name = part.split()[-1].strip()
+                    stat_value = next_part.split('\n')[0].strip()
+                    
+                    # Add to dictionary
+                    hitting_stats_dict[stat_name] = stat_value
+
+                # See final dictionary
+                # st.write("Final stats dict:", hitting_stats_dict)
 
                 try:
 
-                    ba = split_String[13].split('\n')[0]
-                    ba = ba[1:]
-                    obp = split_String[15].split('\n')[0]
-                    obp = obp[1:]
-                    ops = split_String[17].split('\n')[0]
-                    ops = ops[1:]
+                    ba = hitting_stats_dict.get("avg")
+                    obp = hitting_stats_dict.get("obp")
+                    ops = hitting_stats_dict.get("ops")
 
 
                     # 1 function to tally up the points and give a letter grade based on points
