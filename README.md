@@ -6,7 +6,7 @@ A baseball player evaluation tool that grades MLB hitters based on current seaso
 
 ## Features:
 - Player search with real-time MLB data
-- Grading using BA, OBP, OPS with custom point system
+- Grading using BA (Max 30pts), OBP (Max 30pts), OPS (Max 80pts) + bonus (Max 5pts) = 145 total
 - Player photos (headshot + action shots)
 - Bonus points for well-rounded hitters
 - Handles all current MLB players
