@@ -1,8 +1,11 @@
 # mlb-player-grader
 
-A baseball player evaluation tool that grades MLB hitters based on current season performance. Input any player name and get their batting average, OBP, OPS, and an overall grade (S+ to F) using a data-driven grading system.
+Player evaluation tool that grades MLB hitters based on current season performance. Input any player name and get their batting average, OBP, OPS, and an overall grade (S+ to F) using a data-driven grading system.
 
 **Live App:** https://mlb-player-grader.onrender.com/
+
+![Ohtani S+ grade example](https://github.com/user-attachments/assets/d612452d-5695-45b8-bfd8-7aa92a64534d)
+<sub>*Example: Ohtani earning S+ grade (137/145 points) with elite stats across all categories*</sub>
 
 ## Features:
 - Player search with real-time MLB data
