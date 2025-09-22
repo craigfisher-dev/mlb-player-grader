@@ -110,14 +110,24 @@ if (player_name):
             try:
                 # All Stats
                 player_Stats = statsapi.player_stats(selected_player_id, season='current')
-
+                
                 # Just there hitting stats - It is a string
                 player_Hitting_Stats = statsapi.player_stats(selected_player_id, group='hitting', season='current')
+
+                # st.write(player_Hitting_Stats)
 
                 # Safer logic for better lookup
                 hitting_stats_dict = {}
 
-                split_String = player_Hitting_Stats.split(':')
+                split_String = player_Hitting_Stats.split('Season')
+
+                # st.write(split_String)
+                
+                # Fixed issue with players who have been traded 
+                # They have muitple season stats but we want to total
+                split_String = split_String[1].split(':')
+
+                # st.write(split_String)
 
                 for i in range(len(split_String) - 1):
                     part = split_String[i]
