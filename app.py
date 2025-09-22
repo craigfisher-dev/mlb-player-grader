@@ -109,7 +109,7 @@ if (player_name):
 
             try:
                 # All Stats
-                player_Stats = statsapi.player_stats(selected_player_id, season='current')
+                # player_Stats = statsapi.player_stats(selected_player_id, season='current')
                 
                 # Just there hitting stats - It is a string
                 player_Hitting_Stats = statsapi.player_stats(selected_player_id, group='hitting', season='current')
