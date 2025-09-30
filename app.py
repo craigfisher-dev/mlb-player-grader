@@ -13,9 +13,13 @@ st.set_page_config("MLB Hitting Stats Grader", layout="wide")
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    # Format Example: 
+    # Date and Time - Log level - Message
+
+    # 2025-09-30 18:57:35 - INFO - Welcome message displayed to user
+    format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.StreamHandler()  # This outputs to console/stdout
+        logging.StreamHandler() # Outputs to console/stdout to be able to see logs on render
     ]
 )
 
@@ -55,7 +59,7 @@ if (player_name):
     
     # If there are results
     if (player_results):
-
+        logging.info(f"Found {len(player_results)} player(s) matching '{player_name}'")
         # Cache player names to be used in selectbox
         list_player_names = []
 
@@ -96,6 +100,7 @@ if (player_name):
         for player_data in players_ID_And_Name_Cache:
             if (player_data[1] == selected_player_name):
                 selected_player_id = player_data[0]
+                logging.info(f"Player selected: {selected_player_name} (ID: {selected_player_id})")
                 st.markdown(f"### Results for **{selected_player_name}**")
                 # Used for testing
                 # st.markdown(f"*Player ID: {selected_player_id}*")
@@ -123,7 +128,7 @@ if (player_name):
                 
                 # Just there hitting stats - It is a string
                 player_Hitting_Stats = statsapi.player_stats(selected_player_id, group='hitting', season='current')
-
+                logging.info(f"Successfully fetched hitting stats for {selected_player_name}")
                 # st.write(player_Hitting_Stats)
 
                 # Safer logic for better lookup
@@ -349,6 +354,7 @@ if (player_name):
 
 
                     final_Hitting_Grade, total_points  = get_Hitting_Grade(player_grades, ba_float, ops_float, obp_float)
+                    logging.info(f"{selected_player_name} - Grade: {final_Hitting_Grade} ({total_points}/145 pts)")
                     
                     bonus_earned = bonus_points(player_grades)
                     if bonus_earned > 0:
