@@ -11,6 +11,14 @@ selected_player_name = None
 
 st.set_page_config("MLB Hitting Stats Grader", layout="wide")
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler()  # This outputs to console/stdout
+    ]
+)
+
 st.markdown("""
 <style>
     .stMainBlockContainer {
