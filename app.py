@@ -1,5 +1,6 @@
 import streamlit as st
 import statsapi
+import logging
 
 st.cache_data.clear()
 st.cache_resource.clear()
@@ -41,8 +42,9 @@ if (player_name):
         player_results = statsapi.lookup_player(player_name)
     except:
         st.error("Unable to connect to MLB API. Please try again later.")
+        logging.error("Unable to connect to MLB API. Please try again later.")
         player_results = None
-        
+    
     # If there are results
     if (player_results):
 
@@ -357,11 +359,14 @@ if (player_name):
                     
 
                 except:
-                    st.error("Player has no hitting Stats this season") 
+                    st.error("Player has no hitting Stats this season")
+                    logging.info("Unable to connect to MLB API. Please try again later.")
             except:
                 st.error("Unable to fetch player stats. API may be down - try again later.")
+                logging.error("Unable to fetch player stats. API may be down - try again later.")
     else:
         st.error("No player found, please try again.")
+        logging.info("No player found, please try again.")
 # Welcome Message
 if not player_name or (player_name and not selected_player_name):
     st.markdown("""
@@ -374,6 +379,7 @@ if not player_name or (player_name and not selected_player_name):
 
             Simply search for any MLB player in the sidebar to see their latest stats and overall hitting grade!
             """)
+    logging.info("Welcome message displayed to user")
 
 
 
